@@ -5,6 +5,7 @@ A Scriptable script for realtime monitoring of Fronius Power Inverters
 
 
 ## Requirements
+- a Fronius inverter (only tested so far with the Gen24 model)
 - an iOS device (ie. iPhone or iPad)
 - the [Scriptable app](https://scriptable.app)
 
@@ -40,3 +41,5 @@ If you enter the correct IP address you should see a tick (as above).  Tap the *
 To save your IP address edit this script in Scriptable and on line #1 of the script change the IP address to your own then tap **Done**.
 
 ## Why a Scriptable script?
+
+T
