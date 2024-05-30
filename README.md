@@ -9,7 +9,7 @@ A Scriptable script for realtime monitoring of Fronius Power Inverters
 - the [Scriptable app](https://scriptable.app)
 
 ## How to Install
-1. if you haven't done so install the Scriptable app from the App Store (see [https://scriptable.app](https://scriptable.app))
+1. if you haven't done so install the **Scriptable app** from the App Store (see [https://scriptable.app](https://scriptable.app))
 2. download the file named **froniusPowerMonitor.js** from [Releases](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/releases/latest)
 3. on the iOS device (ie. iPhone or iPad) copy the content of this file to your clipboard
    - for example open the downloaded file from Safari
