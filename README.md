@@ -11,7 +11,7 @@ A Scriptable script for realtime monitoring of Fronius Power Inverters
 
 ## How to Use
 
-- download the latest file named "froniusPowerMonitor.js" from [Releases](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/releases/latest)
+- download the latest file named **froniusPowerMonitor.js** from [Releases](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/releases/latest)
 - open the Scriptable 
 
 ## Why a Scriptable script?
