@@ -17,12 +17,10 @@ A Scriptable script for realtime monitoring of Fronius Power Inverters
    - tap **Copy**
 4. open the **Scriptable app**
 5. in **Scripts** tap the **Add** button
-6. in the Untitled Script tap and tap **Paste** (the content of the "froniusPowerMonitor.js" file should be visible in this new Untitled Script)
+6. in the Untitled Script tap then in the menu tap **Paste** (the content of the "froniusPowerMonitor.js" file should be visible in this new Untitled Script)
 7. tap **Untitled Script** to give the script a name
-8. tap the **Run** button to run the script
+8. to test the script starts tap the **Run** button to run the script (then **Close** button to stop it)
 9. tap **Done** to close and save the script
-
-
 
 ## How to Use
 
