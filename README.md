@@ -23,6 +23,20 @@ A Scriptable script for realtime monitoring of Fronius Power Inverters
 9. tap **Done** to close and save the script
 
 ## How to Use
+When you run the script it presents you with a page of charts.
 
+On first use the charts will likely be blank because the script cannot locate the inverter ...
+
+![image](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/assets/28795922/f4e9fdab-672b-4292-93b7-56e2395f47d4)
+
+Tap the Configuration tab and in the **Inverter IP Address** field enter the IP address of your inverter ...
+
+![image](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/assets/28795922/26df895f-86ff-462e-b467-2fcfedc90eb3)
+
+If you enter the correct IP address you should see a tick (as above).  Tap the **Realtime Charts** tab and now the charts should be updating ...
+
+![image](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/assets/28795922/a62b3a68-b84d-4a70-b6b1-401cd478c7ae)
+
+To save your IP address edit this script in Scriptable and on line #1 of the script change the IP address to your own then tap **Done**.
 
 ## Why a Scriptable script?
