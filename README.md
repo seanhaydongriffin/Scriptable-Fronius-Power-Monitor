@@ -42,4 +42,10 @@ To save your IP address edit this script in Scriptable and on line #1 of the scr
 
 ## Why a Scriptable script?
 
-T
+Most browser based web apps that monitor a Fronius inverter will fail due to the underlying Solar Web API including cross-origin resource sharing (CORS).
+
+A workaround is to extend the browser to ignore CORS and thus allow communication between the inverter and web app.  Although other issues can arise with such browser extensions, and there seems to be no such extensions available for mobile based browsers.
+
+A Scriptable script can avoid CORS by performing the inverter communication outside a browser, and still render the output inside a browser (WebView) in Scriptable.
+
+The API provided in the Fronius inverters has cross-origin resource sharing (CORS) which restricts what sites (origins) in a browser
