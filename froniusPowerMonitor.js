@@ -1,4 +1,25 @@
-const ipAddress = "192.168.0.109";
+const scriptBaseConfig = { inverterIpAddress: '192.168.0.109' };
+var scriptConfig = {};
+let fm = FileManager.local();
+var scriptConfigFilename = fm.documentsDirectory() + "/froniusMonitorConfig";
+
+if (!fm.fileExists(scriptConfigFilename))
+    scriptConfig = scriptBaseConfig;
+else
+{
+    try
+    {
+        var scriptConfigFromFile = JSON.parse(fm.readString(scriptConfigFilename));
+        Object.keys(scriptBaseConfig).forEach(key => {
+            scriptConfig[key] = scriptConfigFromFile.hasOwnProperty(key) ? scriptConfigFromFile[key] : scriptBaseConfig[key];
+        });
+    } catch (err)
+    {
+        scriptConfig = scriptBaseConfig;
+    }
+}
+
+fm.writeString(scriptConfigFilename, JSON.stringify(scriptConfig));
 
 let html = `
 <!DOCTYPE html>
@@ -69,6 +90,9 @@ td {
 .alert.success {background-color: #04AA6D;}
 .alert.info {background-color: #2196F3;}
 .alert.warning {background-color: #ff9800;}
+.form * {
+    font-size: 20px;
+}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
@@ -96,7 +120,10 @@ td {
 </div>
 
 <div id="Configuration" class="tabcontent">
-    Inverter IP Address: <input type="text" id="inverterAddress" value="${ipAddress}"><span class="material-icons" id="inverterStatus"></span>
+    <div class="form">
+        <label for="inverterAddress">Inverter IP Address:</label> <input type="text" id="inverterAddress" value=""> <span class="material-icons" id="inverterStatus"></span><br>
+        <button onclick="saveConfig()">Save</button><br>
+    </div>
 
     <div class="alert warning" id="ipAddressFailedAlert" style="display: none;">
         <strong>Warning!</strong> Cannot reach the inverter, IP address may be incorrect, enter the correct address above.
@@ -107,6 +134,15 @@ td {
 </div>
 
 <script>
+// Manage script configuration
+
+var scriptConfig = ${JSON.stringify(scriptConfig)};
+document.getElementById('inverterAddress').value = scriptConfig.inverterIpAddress;
+
+function saveConfig() {
+    scriptConfig.inverterIpAddress = document.getElementById('inverterAddress').value;
+}
+
 // Manage the tabs
 
 function openTab(evt, tabName) {
@@ -266,12 +302,14 @@ setTimeout(function() {
 }, 1000);
 `;
 
+
 let wv = new WebView();
 await wv.loadHTML(html);
 await wv.evaluateJavaScript(overTimeScript, false);
 await wv.evaluateJavaScript(gaugesScript, false);
 wv.present();
 
+var scriptConfigCopy = scriptConfig;
 const timer = new Timer();
 timer.repeats = true;
 timer.timeInterval = 1000;
@@ -311,4 +349,10 @@ timer.schedule(async () => {
         await wv.evaluateJavaScript("document.getElementById('inverterStatus').innerHTML = '&#xe000;';", false);
     }
 
+    scriptConfig = await wv.evaluateJavaScript("scriptConfig;", false);
+
+    if (JSON.stringify(scriptConfig) != JSON.stringify(scriptConfigCopy))
+        fm.writeString(scriptConfigFilename, JSON.stringify(scriptConfig));
+
+    scriptConfigCopy = JSON.parse(JSON.stringify(scriptConfig));
 });
