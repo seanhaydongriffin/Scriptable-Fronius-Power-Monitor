@@ -48,4 +48,4 @@ Most browser based web apps that monitor a Fronius inverter will fail due to the
 
 Popular workarounds are to extend the browser to ignore CORS, or setup a local CORS proxy on another device, to allow communication between the inverter and web app.
 
-A Scriptable script does not require any such workaround.  It can perform the inverter communication outside a browser (avoiding CORS), and render the output in a browser view (WebView).
+A Scriptable script does not require such workarounds.  It can communicate directly with the inverter by doing so outside a browser (avoiding CORS), and then render the output in a browser view (WebView).
