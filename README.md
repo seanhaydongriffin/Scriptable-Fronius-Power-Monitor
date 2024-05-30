@@ -1,5 +1,6 @@
 # Scriptable-Fronius-Power-Monitor
-A Scriptable script for realtime monitoring of Fronius Power Inverters
+A Scriptable script for realtime monitoring of Fronius Power Inverters.
+Works directly from iOS device (iPhone / iPad) to inverter.
 
 ![image](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/assets/28795922/7762cd83-94a8-4244-babd-50e31eeb669f)
 
