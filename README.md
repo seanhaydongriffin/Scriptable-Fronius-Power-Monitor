@@ -29,7 +29,7 @@ On first use the charts will likely be blank because the script cannot locate th
 
 ![image](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/assets/28795922/f4e9fdab-672b-4292-93b7-56e2395f47d4)
 
-Tap the Configuration tab and in the **Inverter IP Address** field enter the IP address of your inverter ...
+Tap the **Configuration** tab and in the **Inverter IP Address** field enter the IP address of your inverter ...
 
 ![image](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/assets/28795922/26df895f-86ff-462e-b467-2fcfedc90eb3)
 
