@@ -7,7 +7,7 @@ Works directly from iOS device (iPhone / iPad) to inverter via your network / Wi
 
 
 ## Requirements
-- a Fronius inverter (only tested so far with the Gen24 model)
+- a Fronius inverter (tested so far on the Gen24 model)
 - an iOS device (ie. iPhone or iPad)
 - the [Scriptable app](https://scriptable.app)
 
