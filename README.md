@@ -40,7 +40,7 @@ If you enter the correct IP address you should see a tick (as above).  Tap the *
 
 ![image](https://github.com/seanhaydongriffin/Scriptable-Fronius-Power-Monitor/assets/28795922/a62b3a68-b84d-4a70-b6b1-401cd478c7ae)
 
-To save your IP address edit this script in Scriptable and on line #1 of the script change the IP address to your own then tap **Done**.
+To save your changes click the **Save** button.  Next time you run the script your saved configuration should be restored.
 
 ## Why a Scriptable script?
 
