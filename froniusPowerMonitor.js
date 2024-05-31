@@ -27,6 +27,7 @@ let html = `
 <head>
 <style>
 html, body {
+    font-family: 'Arial', sans-serif;
     overscroll-behavior-y: none;
 }
 .tab {
@@ -56,31 +57,16 @@ html, body {
   border: 1px solid #ccc;
   border-top: none;
 }
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+.canvas-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
-td {
-    white-space: nowrap;
+.gauge-title {
+    display: inline-block; width: 200px; white-space: nowrap; font-weight: bold; color: dimgray;
 }
-.table-cell {
-    position: relative;
-    height: 100px;
-}
-.floating-text {
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    font-size: 20px;
-}
-.centered {
-	width: 300;
-    margin: auto;
-    display: block;
-	text-align: center;
+.gauge-power {
+    background-color: black; color: white; border-radius: 10px; padding: 5px;
 }
 .alert {
     padding: 20px;
@@ -107,12 +93,15 @@ td {
 
 <div id="Realtime Charts" class="tabcontent">
     <div style="height: 300px; width: 100%;"><canvas id="overTimeChart"></canvas></div>
-    <table style="height: 300px; width: 100%;">
-        <tr>
-        <td class="table-cell"><div class="floating-text">Power From Solar (Watts)</div><canvas class="centered" id="fromSolarGauge" width="300" height="300"></canvas></td>
-        <td class="table-cell"><div class="floating-text">Power From Grid (Watts)</div><canvas class="centered" id="fromGridGauge" width="300" height="300"></canvas></td>
-        </tr>
-    </table>
+    
+	<div class="canvas-container">
+        <div style="text-align: center; font-size: 22px;"><span class="gauge-title">Power From Solar <span id="powerFromSolar" class="gauge-power"></span></span></div>
+        <div style="text-align: center; font-size: 22px;"><span class="gauge-title">Power From Grid <span id="powerFromGrid" class="gauge-power"></span></span></div>
+	</div>
+	<div class="canvas-container">
+        <div><canvas id="fromSolarGauge" width="200" height="120"></canvas></div>
+        <div><canvas id="fromGridGauge" width="200" height="120"></canvas></div>
+	</div>
 
     <div class="alert warning" id="requestFailedAlert" style="display: none;">
         <strong>Warning!</strong> Cannot locate the inverter, check the IP Address in the Configuration tab.
@@ -277,7 +266,7 @@ setTimeout(function() {
         options: {
             responsive: false,
             layout: { padding: { top: 0, bottom: 0 } },
-            valueLabel: { backgroundColor: 'Black', formatter: Math.round, offsetY: '30%', font: { size: 24 } }
+            valueLabel: { display: false }
         }
     };
 
@@ -289,7 +278,7 @@ setTimeout(function() {
         options: {
             responsive: false,
             layout: { padding: { top: 0, bottom: 0 } },
-            valueLabel: { backgroundColor: 'Black', formatter: Math.round, offsetY: '30%', font: { size: 24 } }
+            valueLabel: { display: false }
         }
     };
   
@@ -341,7 +330,9 @@ timer.schedule(async () => {
 
         await wv.evaluateJavaScript('addData(overTimeChart, "' + newLabel + '", ' + p_load + ', ' + p_from_solar + ', ' + p_grid_from_grid + ', ' + p_grid_to_grid + ');', false);
         await wv.evaluateJavaScript('addGaugeData(fromGridGauge, ' + p_grid_from_grid + ');', false);
+        await wv.evaluateJavaScript("document.getElementById('powerFromGrid').textContent = '" + Math.floor(p_grid_from_grid) + "W';", false);
         await wv.evaluateJavaScript('addGaugeData(fromSolarGauge, ' + (p_from_solar+p_grid_to_grid) + ');', false);
+        await wv.evaluateJavaScript("document.getElementById('powerFromSolar').textContent = '" + Math.floor(p_from_solar+p_grid_to_grid) + "W';", false);
     } catch (err)
     {
         await wv.evaluateJavaScript("document.getElementById('requestFailedAlert').style.display = 'block';", false);
