@@ -1,4 +1,4 @@
-const scriptBaseConfig = { inverterIpAddress: '192.168.0.109' };
+const scriptBaseConfig = { inverterIpAddress: '192.168.0.109', gwidth: 200, gheight: 120, pfs1limit: 300, pfs2limit: 1000, pfs3limit: 4000, pfs4limit: 8000, pfs1colour: '#99ff33', pfs2colour: '#66cc00', pfs3colour: '#4d9900', pfs4colour: '#336600', pfg1limit: 300, pfg2limit: 1000, pfg3limit: 4000, pfg4limit: 8000, pfg1colour: '#ff9999', pfg2colour: '#ff0000', pfg3colour: '#b81414', pfg4colour: '#660000' };
 var scriptConfig = {};
 let fm = FileManager.local();
 var scriptConfigFilename = fm.documentsDirectory() + "/froniusMonitorConfig";
@@ -63,11 +63,15 @@ html, body {
     align-items: center;
 }
 .gauge-title {
-    display: inline-block; width: 200px; white-space: nowrap; font-weight: bold; color: dimgray;
+    display: inline-block; width: 200px; white-space: nowrap; font-weight: bold; color: dimgray; text-align: center; font-size: 22px;
 }
 .gauge-power {
     background-color: black; color: white; border-radius: 10px; padding: 5px;
 }
+.config-container {	display: flex; justify-content: flex-start; }
+.config-left { }
+.config-right { margin-left: auto; }
+.size-field { width: 80px; }
 .alert {
     padding: 20px;
     background-color: #f44336;
@@ -95,12 +99,12 @@ html, body {
     <div style="height: 300px; width: 100%;"><canvas id="overTimeChart"></canvas></div>
     
 	<div class="canvas-container">
-        <div style="text-align: center; font-size: 22px;"><span class="gauge-title">Power From Solar <span id="powerFromSolar" class="gauge-power"></span></span></div>
-        <div style="text-align: center; font-size: 22px;"><span class="gauge-title">Power From Grid <span id="powerFromGrid" class="gauge-power"></span></span></div>
+        <div><span class="gauge-title">Power From Solar <span id="powerFromSolar" class="gauge-power"></span></span></div>
+        <div><span class="gauge-title">Power From Grid <span id="powerFromGrid" class="gauge-power"></span></span></div>
 	</div>
 	<div class="canvas-container">
-        <div><canvas id="fromSolarGauge" width="200" height="120"></canvas></div>
-        <div><canvas id="fromGridGauge" width="200" height="120"></canvas></div>
+        <div><canvas id="fromSolarGauge" width="${scriptConfig.gwidth}" height="${scriptConfig.gheight}"></canvas></div>
+        <div><canvas id="fromGridGauge" width="${scriptConfig.gwidth}" height="${scriptConfig.gheight}"></canvas></div>
 	</div>
 
     <div class="alert warning" id="requestFailedAlert" style="display: none;">
@@ -110,8 +114,32 @@ html, body {
 
 <div id="Configuration" class="tabcontent">
     <div class="form">
-        <label for="inverterAddress">Inverter IP Address:</label> <input type="text" id="inverterAddress" value=""> <span class="material-icons" id="inverterStatus"></span><br>
-        <button onclick="saveConfig()">Save</button><br>
+        <div class="config-container">
+            <div class="config-left"><label for="inverterAddress">Inverter IP Address:</label> <input type="text" id="inverterAddress" value=""> <span class="material-icons" id="inverterStatus"></span></div>
+            <div class="config-right"><button onclick="restoreDefaults()">Restore Default</button></div>
+            <div class="config-right"><button onclick="saveConfig()">Save</button></div>
+        </div>
+        <br>
+        <fieldset>
+            <legend>Gauges:</legend>
+            <label for="gwidth">Width:</label> <input type="text" id="gwidth" value="${scriptConfig.gwidth}"> <label for="gheight">Height:</label> <input type="text" id="gheight" value="${scriptConfig.gheight}">
+            <br><br>
+            <fieldset>
+                <legend>Power From Solar:</legend>
+                <label for="pfs1limit">Band 1 Limit (W):</label> <input type="number" id="pfs1limit" class="size-field" value="${scriptConfig.pfs1limit}"> <label for="pfs1colour">Colour:</label> <input type="text" id="pfs1colour" value="${scriptConfig.pfs1colour}"><br><br>
+                <label for="pfs2limit">Band 2 Limit (W):</label> <input type="number" id="pfs2limit" class="size-field" value="${scriptConfig.pfs2limit}"> <label for="pfs2colour">Colour:</label> <input type="text" id="pfs2colour" value="${scriptConfig.pfs2colour}"><br><br>
+                <label for="pfs3limit">Band 3 Limit (W):</label> <input type="number" id="pfs3limit" class="size-field" value="${scriptConfig.pfs3limit}"> <label for="pfs3colour">Colour:</label> <input type="text" id="pfs3colour" value="${scriptConfig.pfs3colour}"><br><br>
+                <label for="pfs4limit">Band 4 Limit (W):</label> <input type="number" id="pfs4limit" class="size-field" value="${scriptConfig.pfs4limit}"> <label for="pfs4colour">Colour:</label> <input type="text" id="pfs4colour" value="${scriptConfig.pfs4colour}"><br><br>
+            </fieldset>        
+            <br>
+            <fieldset>
+                <legend>Power From Grid:</legend>
+                <label for="pfg1limit">Band 1 Limit (W):</label> <input type="number" id="pfg1limit" class="size-field" value="${scriptConfig.pfg1limit}"> <label for="pfg1colour">Colour:</label> <input type="text" id="pfg1colour" value="${scriptConfig.pfg1colour}"><br><br>
+                <label for="pfg2limit">Band 2 Limit (W):</label> <input type="number" id="pfg2limit" class="size-field" value="${scriptConfig.pfg2limit}"> <label for="pfg2colour">Colour:</label> <input type="text" id="pfg2colour" value="${scriptConfig.pfg2colour}"><br><br>
+                <label for="pfg3limit">Band 3 Limit (W):</label> <input type="number" id="pfg3limit" class="size-field" value="${scriptConfig.pfg3limit}"> <label for="pfg3colour">Colour:</label> <input type="text" id="pfg3colour" value="${scriptConfig.pfg3colour}"><br><br>
+                <label for="pfg4limit">Band 4 Limit (W):</label> <input type="number" id="pfg4limit" class="size-field" value="${scriptConfig.pfg4limit}"> <label for="pfg4colour">Colour:</label> <input type="text" id="pfg4colour" value="${scriptConfig.pfg4colour}"><br><br>
+            </fieldset>        
+        </fieldset>        
     </div>
 
     <div class="alert warning" id="ipAddressFailedAlert" style="display: none;">
@@ -128,8 +156,47 @@ html, body {
 var scriptConfig = ${JSON.stringify(scriptConfig)};
 document.getElementById('inverterAddress').value = scriptConfig.inverterIpAddress;
 
+function restoreDefaults() {
+    scriptConfig = JSON.parse(JSON.stringify(scriptBaseConfig));
+}
+
 function saveConfig() {
+    
     scriptConfig.inverterIpAddress = document.getElementById('inverterAddress').value;
+    scriptConfig.gwidth = document.getElementById('gwidth').value;
+    document.getElementById('fromSolarGauge').width = scriptConfig.gwidth;
+    document.getElementById('fromGridGauge').width = scriptConfig.gwidth;
+    scriptConfig.gheight = document.getElementById('gheight').value;
+    document.getElementById('fromSolarGauge').height = scriptConfig.gheight;
+    document.getElementById('fromGridGauge').height = scriptConfig.gheight;
+
+    var gaugeTitles = document.getElementsByClassName('gauge-title');
+
+    for (var i = 0; i < gaugeTitles.length; i++) {
+        gaugeTitles[i].style.width = scriptConfig.gwidth;
+    }
+
+    scriptConfig.pfs1limit = document.getElementById('pfs1limit').value;
+    scriptConfig.pfs2limit = document.getElementById('pfs2limit').value;
+    scriptConfig.pfs3limit = document.getElementById('pfs3limit').value;
+    scriptConfig.pfs4limit = document.getElementById('pfs4limit').value;
+    fromSolarGauge.data.datasets[0].data = [scriptConfig.pfs1limit, scriptConfig.pfs2limit, scriptConfig.pfs3limit, scriptConfig.pfs4limit];
+    scriptConfig.pfs1colour = document.getElementById('pfs1colour').value;
+    scriptConfig.pfs2colour = document.getElementById('pfs2colour').value;
+    scriptConfig.pfs3colour = document.getElementById('pfs3colour').value;
+    scriptConfig.pfs4colour = document.getElementById('pfs4colour').value;
+    fromSolarGauge.data.backgroundColor = [scriptConfig.pfs1colour, scriptConfig.pfs2colour, scriptConfig.pfs3colour, scriptConfig.pfs4colour];
+    scriptConfig.pfg1limit = document.getElementById('pfg1limit').value;
+    scriptConfig.pfg2limit = document.getElementById('pfg2limit').value;
+    scriptConfig.pfg3limit = document.getElementById('pfg3limit').value;
+    scriptConfig.pfg4limit = document.getElementById('pfg4limit').value;
+    fromGridGauge.data.datasets[0].data = [scriptConfig.pfg1limit, scriptConfig.pfg2limit, scriptConfig.pfg3limit, scriptConfig.pfg4limit];
+    scriptConfig.pfg1colour = document.getElementById('pfg1colour').value;
+    scriptConfig.pfg2colour = document.getElementById('pfg2colour').value;
+    scriptConfig.pfg3colour = document.getElementById('pfg3colour').value;
+    scriptConfig.pfg4colour = document.getElementById('pfg4colour').value;
+    fromGridGauge.data.backgroundColor = [scriptConfig.pfg1colour, scriptConfig.pfg2colour, scriptConfig.pfg3colour, scriptConfig.pfg4colour];
+    
 }
 
 // Manage the tabs
@@ -261,7 +328,7 @@ setTimeout(function() {
     var fromGridConfig = {
         type: 'gauge',
         data: {
-            datasets: [{ data: [300, 1000, 4000, 8000], value: 1, backgroundColor: ["#ff9999", "#ff0000", "#b81414", "#660000"], borderWidth: 2 }]
+            datasets: [{ data: [${scriptConfig.pfg1limit}, ${scriptConfig.pfg2limit}, ${scriptConfig.pfg3limit}, ${scriptConfig.pfg4limit}], value: 1, backgroundColor: ["${scriptConfig.pfg1colour}", "${scriptConfig.pfg2colour}", "${scriptConfig.pfg3colour}", "${scriptConfig.pfg4colour}"], borderWidth: 2 }]
         },
         options: {
             responsive: false,
@@ -273,7 +340,7 @@ setTimeout(function() {
     var fromSolarConfig = {
         type: 'gauge',
         data: {
-            datasets: [{ data: [300, 1000, 4000, 8000], value: 1, backgroundColor: ["#99ff33", "#66cc00", "#4d9900", "#336600"], borderWidth: 2 }]
+            datasets: [{ data: [${scriptConfig.pfs1limit}, ${scriptConfig.pfs2limit}, ${scriptConfig.pfs3limit}, ${scriptConfig.pfs4limit}], value: 1, backgroundColor: ["${scriptConfig.pfs1colour}", "${scriptConfig.pfs2colour}", "${scriptConfig.pfs3colour}", "${scriptConfig.pfs4colour}"], borderWidth: 2 }]
         },
         options: {
             responsive: false,
